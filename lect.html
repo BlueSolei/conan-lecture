@@ -36,29 +36,6 @@ background-size: 90%
 background-position: bottom
 
 # Conan, A C++ package manager
----
-
-# Agenda
-
-1. Introduction
-2. Deep-dive
-3. ...
-
-Build: `printf("hello {}", &i);`
-```terminal
-clang++ main.cpp -o hello-world
-```
-
-C++
-```c++
-#include <iostream>
-
-int main(int argc, char* argv[])
-{
-  std::cout << "Hello World\n";
-* return 0;
-}
-```
 
 ---
 
@@ -90,19 +67,36 @@ clang main.cpp -o hello-world (error: I use C compiler, not C++)
 
 ???
 
-* Build: 
+### Build 
 ```shell
 clang++ -std=c++20 main.cpp greet.cpp -o hello-world
 ```
+
+### Run
+* `./hello`
+* [Validate JSON](https://jsonformatter.curiousconcept.com/)
+
+### Modularization
+```shell
+clang++ -std=c++20 -c greet.cpp 
+ar rsc libgreet.a greet.o
+clang++ -std=c++20 -c main.cpp 
+clang++ main.o -lgreet -L. -o hello-real-world
+```
+
+### Monolit:
 * Attempt 1: `clang++ main.cpp -o hello-world` (error: forgot a file)
 * Attempt 2: `clang++ main.cpp greet.cpp -o hello-world` (error: forgot -std=c++20)
 
-Cons:
+### Modulerise 
+* Attempt 1: `clang++ libgreet.a main.o` (error: libs MUST listed after the code)
+
+### Cons:
 1. remeber flags
 2. all files get build every time
 3. no modularization
 
-SW enginiring:
+### SW enginiring:
 1. Formatting & JSON are done primitivly
 2. Modulerise - use libreires
 3. For 1: Package manager (consume packages)
@@ -130,7 +124,7 @@ SW enginiring:
 
 # ""
     </textarea>
-  <script src="https://remarkjs.com/downloads/remark-latest.min.js">
+  <script src="env/remark.js">
   </script>
   <script>
     var slideshow = remark.create(
