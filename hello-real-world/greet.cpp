@@ -11,6 +11,7 @@ std::string enum_to_string(color_e color) {
     case color_e::red: return "red";
     case color_e::yellow: return "yellow";
     case color_e::green: return "green";
+    default: return "<unknown>";
   }
 }
 
