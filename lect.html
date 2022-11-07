@@ -39,7 +39,40 @@ background-position: bottom
 
 ---
 
+class: center, top
+
+# So what is a Package Manager?
+# Well, this is somthing that got to do with software packages
+# Actualy, we are going to talk about ...
+
+---
+
+class: center, center
+
+# Software Enginiring
+# Lets write a C++ program :-) 
+## Live Demo, your prayers are welcome
+
+---
 # Hello World (1982)
+
+```cpp
+#include <iostream>
+
+  int main(int argc, char* argv[])
+  {
+    std::cout << "Hello World\n";
+    return 0;
+  }
+```
+
+## Pros:
+1. The most basic C++ program
+2. Simple, only need a compiler and one command line
+
+## Cons:
+1. not a real program
+2. we can mess that too
 
 ???
 
@@ -64,6 +97,24 @@ clang main.cpp -o hello-world (error: I use C compiler, not C++)
 ---
 
 # "Real_er_" Hello World
+
+## create a JSON
+
+```json
+{
+  name: "Shaul",
+  age: 42,
+  favorite_color: "black",
+  greeting_msg: "Hello Shaul :-)\nYour age is 42 and your favorite color is black."
+}
+```
+### Pros:
+1. standard C++, no need anyyhing else
+
+### Cons:
+1. remeber flags
+2. all files get build every time
+3. no modularization
 
 ???
 
@@ -91,38 +142,88 @@ clang++ main.o -lgreet -L. -o hello-real-world
 ### Modulerise 
 * Attempt 1: `clang++ libgreet.a main.o` (error: libs MUST listed after the code)
 
-### Cons:
-1. remeber flags
-2. all files get build every time
-3. no modularization
 
 ### SW enginiring:
 1. Formatting & JSON are done primitivly
 2. Modulerise - use libreires
 3. For 1: Package manager (consume packages)
 4. For 2: Build system (produce package) 
-5. Make - 1976
-6. Command line gets triky for create libreries, for remeber flags, for dependency of files
+5. Command line gets triky for create libreries, for remeber flags, for dependency of files
 
 ---
 
+# "Real_er_": Let us have a Build System 
+## Makefile
+```make
+TARGET = hello
+
+$(TARGET): main.o libgreet.a 
+	clang++ $^ -o $@
+
+main.o: main.cpp
+	clang++ -std=c++20 -c $< -o $@
+
+libgreet.a: greet.o 
+	ar rcs $@ $^
+
+greet.o: greet.cpp greet.h
+	clang++ -std=c++20 -c -o $@ $<
+
+clean:
+	git clean -f
+```
+---
+
 # "Real_er_": Let go Cross Platform 
-## dev-env & deployment
+## CMake
+```cmake
+cmake_minimum_required(VERSION 3.16)
+project(hello)
+
+set(CMAKE_CXX_STANDARD 20)
+
+add_library(greet)
+target_sources(greet PRIVATE greet.cpp PUBLIC greet.h)
+
+add_executable(hello)
+target_sources(hello PRIVATE main.cpp)
+target_link_libraries(hello PRIVATE greet)
+
+install(TARGETS hello)
+```
+### Pros
+1. Cross Platform
+1. DSL: describe _WHAT_ to do, and not _HOW_ to do it
+
+### Cons
+1. need to care for ENV vars for compiler
+2. no support for binary packages
+
 
 ???
 1. CMake is cross platform build (generation) system
 
 ---
 
+background-image: url(/ppt/crow.png)
+background-size: 90%
+background-position: bottom
 # "Real_er_": Lets go Internet
-## A Webserver
+## [A Webserver](https://crowcpp.org/master/)
 
 ???
 1. Conan package manager for consume pacakges
 
 ---
 
-# ""
+class: center, top
+background-image: url(/ppt/conan-install_flow.png)
+background-size: 90%
+background-position: bottom
+
+# Conan package flow
+---
+
     </textarea>
   <script src="env/remark.js">
   </script>
