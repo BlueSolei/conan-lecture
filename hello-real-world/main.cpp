@@ -19,5 +19,6 @@ int main(int argc, char* argv[])
   auto greeting_msg = greet("Shaul", 42, color_e::black);
   auto json = to_json("Shaul", 42, color_e::black, greeting_msg);
   std::cout << json;
+  std::cout << "\n\n Validate Me: https://jsonformatter.curiousconcept.com\n";
   return 0;
 }
